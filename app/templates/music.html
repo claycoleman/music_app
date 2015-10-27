@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}music{% endblock %}
+
+{% block breadcrumb %}music{% endblock %}
+
+{% block music-active %}
+    active
+{% endblock music-active %}
+
+{% block main %}
+
+<!-- Portfolio -->
+    <section class="portfolio" id="portfolio">
+        <div class="container section-wrapper" style="text-align: center">
+            <h1 class="black">
+                <strong>MUSIC</strong>
+            </h1> <!-- /.section-title -->
+            <div class="underline blue"></div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="portfolio-item" style="min-height: 200px;">
+                    <a href="{% url 'artist_list' %}"><span class='clickable-div'></span></a>
+                        <div class="portfolio-item-details">
+                            <div class="portfolio-item-name">
+                                <h2>ARTISTS</h2>
+                                <br><small><a href="{% url 'artist_list' %}">See all artists</a></small>
+                            </div> <!-- /.portfolio-item-name -->
+                        </div> <!-- /.portfolio-item-details -->
+                    </div> <!-- /.portfolio-item -->
+                </div> <!-- /.col-md-4 -->
+
+                <div class="col-sm-6 col-xs-12">
+                    <div class="portfolio-item" style="min-height: 200px;">
+                    <a href="{% url 'album_list' %}"><span class='clickable-div'></span></a>
+                        <div class="portfolio-item-details">
+                            <div class="portfolio-item-name">
+                                <h2>ALBUMS</h2>
+                                <br><small><a href="{% url 'album_list' %}">See all albums</a></small>
+                            </div> <!-- /.portfolio-item-name -->
+                        </div> <!-- /.portfolio-item-details -->
+                    </div> <!-- /.portfolio-item -->
+                </div> <!-- /.col-md-4 -->
+
+                <div class="col-sm-6 col-xs-12">
+                    <div class="portfolio-item" style="min-height: 200px;">
+                        <a href="{% url 'track_list' %}"><span class='clickable-div'></span></a>
+                        <div class="portfolio-item-details">
+                            <div class="portfolio-item-name">
+                                <h2>TRACKS</h2>
+                                <br><small><a href="{% url 'track_list' %}">See all tracks</a></small>
+                            </div> <!-- /.portfolio-item-name -->
+                        </div> <!-- /.portfolio-item-details -->
+                    </div>  <!-- /.portfolio-item -->
+                </div><!-- /.col-md-4 -->
+
+                <div class="col-sm-6 col-xs-12">
+                    <div class="portfolio-item" style="min-height: 200px;">
+                        <a href="{% url 'genre_list' %}"><span class='clickable-div'></span></a>
+                        <div class="portfolio-item-details">
+                            <div class="portfolio-item-name">
+                                <h2>GENRES</h2>
+                                <br><small><a href="{% url 'genre_list' %}">See all genres</a></small>
+                            </div> <!-- /.portfolio-item-name -->
+                        </div> <!-- /.portfolio-item-details -->
+                    </div> <!-- /.portfolio-item -->
+                </div> <!-- /.col-md-4 -->
+            </div>
+        </div> <!-- /.container -->
+    </section> <!-- /.portfolio -->
+
+
+{% endblock main %}

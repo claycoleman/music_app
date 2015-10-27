@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load nbsp %}
+{% load thumbnail %}
+{% block title %}{{genre.genre_title}}{% endblock %}
+
+{% block breadcrumb %}<li><a href="{% url 'genre_list' %}">Genres</a></li><li class="active">{{genre.genre_title}}</li>{% endblock %}
+
+{% block music-active %}
+    active
+{% endblock music-active %}
+
+{% block main %}
+
+
+
+<!-- About Us -->
+    <section class="about" id="about">
+        <div class="container section-wrapper">
+            <h2 class="section-title black">
+                {{genre.genre_title}}
+            </h2> <!-- /.section-title -->
+            <div class="underline blue"></div>    
+            {% if genre.genre_set.all %}
+                <div class="row">
+                <div class="col-sm-12" style="text-align: center">
+                    <h3>
+                        Sub-Genres
+                    </h3><br>
+                    <h4 class="about-detail">
+                        – {% for genre in genre.genre_set.all %}
+                            <a class="" href="{% url 'genre_detail' genre.genre_handle %}">{{genre.genre_title|nbsp}}</a> –
+                        {% endfor %}
+                    </h4>
+                </div>
+            </div>
+            <hr>
+            {% endif %}
+            {% if is_paginated %}
+            <div class="row">
+        <div class="col-xs-10">
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.previous_page_number }}">previous    </a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.previous_page_number }}">previous    </a>
+                    {% endif %}
+                    
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                
+                {% if page_obj.has_next %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.next_page_number }}">next    </a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.next_page_number }}">next    </a>
+                    {% endif %}
+                {% endif %}
+                <select  class="form-control"  name="pages" onchange="location = this.options[this.selectedIndex].value;">
+                    <option value="#">Select a page</option>
+                    {% for num in paginator.page_range %}
+                        <option value='{{request.path}}?page={{ num }}'>Page {{num}}</option>
+                    {% endfor %}
+                </select>
+            </span>
+        </div>
+                </div>
+            </div>
+            <hr>
+    {% endif %}
+
+            <div class="row"style="text-align: center">
+                <h3>
+                    Tracks
+                </h3><br>
+                <div class="col-sm-10 col-sm-offset-1">
+                    <p class="about-detail">
+                        <div class="row">
+                        {% for track in tracks %}
+                           <div class="col-sm-2" style="min-height: 40px"><a href="{% url 'track_detail' track.pk %}"><span class="clickable-div"></span></a><a href="{% url 'track_detail' track.pk %}">{{track.track_title}}</a><p>{{track.album.artist}}</p></div>
+                           {% if forloop.last %}
+                             </div>
+                           {% else %}
+                             {% if forloop.counter|divisibleby:"6" %}
+                               </div><br><div class="row">
+                             {% endif %}
+                           {% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+            {% if is_paginated %}
+            <div class="row">
+        <div class="col-xs-10">
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.previous_page_number }}">previous    </a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.previous_page_number }}">previous    </a>
+                    {% endif %}
+                    
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                
+                {% if page_obj.has_next %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.next_page_number }}">next    </a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.next_page_number }}">next    </a>
+                    {% endif %}
+                {% endif %}
+                <select  class="form-control"  name="pages" onchange="location = this.options[this.selectedIndex].value;">
+                    <option value="#">Select a page</option>
+                    {% for num in paginator.page_range %}
+                        <option value='{{request.path}}?page={{ num }}'>Page {{num}}</option>
+                    {% endfor %}
+                </select>
+            </span>
+        </div>
+                </div>
+                </div>
+            <hr>
+    {% endif %}
+        </div> <!-- /.container -->
+    </section> <!-- /.about -->
+    
+
+
+{% endblock %}
+
+
+{{genre.genre_id}} <br>
+{{genre.genre_title}}<br>
+{{genre.genre_handle}}<br>
+{{genre.genre_parent_id}}
+{% if genre.parent_genre %}
+    <a href="{% url 'genre_detail' genre.parent_genre.genre_handle %}">{{genre.parent_genre.genre_title}}</a>
+{% endif %}
+<br>
+{% for child_genre in genre.genre_set.all %}
+    <a href="{% url 'genre_detail' child_genre.genre_handle %}">{{child_genre.genre_title}}</a>
+{% endfor %}<br>
+<a href="{% url 'genre_list' %}">Back to the list</a>

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block title %}log in{% endblock %}
+
+{% block breadcrumb %}log in{% endblock %}
+
+{% block login-active %}active{% endblock login-active %}
+
+{% block main %}
+
+<!-- Portfolio -->
+    <section class="portfolio" id="portfolio">
+        <div class="container section-wrapper">
+            <h2 class="section-title black">
+                Log in
+            </h2> <!-- /.section-title -->
+            <div class="underline blue"></div>
+            <div class="row">
+                <div class="col-xs-offset-1 col-xs-10">
+                    {% if form.errors %}
+                    <p>Your username and password didn't match. Please try again.</p>
+                    {% endif %}
+                    <p>{{alerts}}</p>
+
+                {% if request.user.is_anonymous %}
+                <form id="signup" method="post" action="{% url 'login' %}#signup">
+                {% csrf_token %}
+                <div class="form-group"></div>
+                {{ form.as_p }}
+                <br>
+                <input class="form-control" style="width: 25%; margin: auto" type="submit" value="Log In" />Or use: <div class="social-icon">
+                        <a href="{% url 'social:begin' 'facebook' %}?next={% url 'music' %}">
+                            <div class="icon fb">
+                                <i class="ion-social-facebook"></i>
+                            </div>
+                        </a>
+                        <a href="{% url 'social:begin' 'twitter' %}?next={% url 'music' %}">
+                            <div class="icon twitter">
+                                <i class="ion-social-twitter"></i>
+                            </div>
+                        </a>
+                        <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'music' %}">
+                            <div class="icon google">
+                                <i class="ion-social-google"></i>
+                            </div>
+                        </a>
+                </div>
+                </form>
+                </div>
+                </div>
+                <div class="row">
+                </div>
+                {% else %}
+
+                <a href="{% url 'logout' %}">logout</a>
+                </div>
+                </div>      
+                {% endif %}
+                
+                {{valid}}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

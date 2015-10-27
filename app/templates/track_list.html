@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block title %}tracks{% endblock %}
+
+{% block breadcrumb %}<li class="active">tracks</li>{% endblock %}
+
+
+
+{% block music-active %}
+    active
+{% endblock music-active %}
+
+{% block main %}
+
+<!-- Portfolio -->
+    <section class="portfolio" id="portfolio">
+        <div class="container section-wrapper">
+            <h2 class="section-title black">
+                tracks
+            </h2>
+            <div class="underline blue"></div>
+            <form action="{% url 'track_list' %}" method='GET'>
+                <input name='search' type='text' size='15' placeholder='Search for a track'>
+            </form>
+
+
+            {% if is_paginated %}
+
+    <div class="row">
+        <div class="col-xs-10">
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'track_list' %}?page={{ page_obj.previous_page_number }}">previous    </a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="{% url 'track_list' %}?page={{ page_obj.next_page_number }}">    next</a>
+                {% endif %}
+                <select  class="form-control"  name="pages" onchange="location = this.options[this.selectedIndex].value;">
+                    <option value="#">Select a page</option>
+                    {% for num in paginator.page_range %}
+                        <option value='{% url "track_list" %}?page={{num}}'>Page {{num}}</option>
+                    {% endfor %}
+                </select>
+            </span>
+        </div>
+                </div>
+            </div>
+    {% endif %}
+
+            <hr>
+            <div class="row">
+                {% for album in albums %}
+                <div class="col-sm-4 col-xs-6">
+                    <div class="portfolio-item" style="min-height: 150px;">
+                        <div class="portfolio-item-details">
+                            <div class="portfolio-item-name">
+                                Artist - <strong>{{album.artist}}</strong><br> 
+                                Album - <strong><a href="{% url 'album_detail' album.album_handle %}">{{album.album_title}}</a></strong> <br><small>{% for track in album.track_set.all %}
+                                    {% if 'search' in request.GET %}  
+                                       {% if request.GET.search in track.track_title %}
+                                            <a href="{% url 'track_detail' track.pk %}">{{track.track_title}} </a>{% ifnotequal forloop.counter album.track_set.all|length %}
+                                    , 
+                                    {% endifnotequal %}
+                                        {% endif %} 
+                                    
+                                    {% else %}
+                                    <a href="{% url 'track_detail' track.pk %}">{{track.track_title}} </a>{% ifnotequal forloop.counter album.track_set.all|length %}
+                                    , 
+                                    {% endifnotequal %}
+                                    {% endif %}
+
+                                {% endfor %}</small>
+                            </div> <!-- /.portfolio-item-name -->
+                            <div class="port-heart">
+                                <i class="ion-ios-musical-note"></i> {{album.track_set.all|length}}
+                            </div> <!-- /.port-heart -->
+                        </div> <!-- /.portfolio-item-details -->
+                    </div> <!-- /.portfolio-item -->
+                </div> <!-- /.col-md-4 -->
+                {% endfor %}
+            </div> <!-- /.row -->
+            
+            {% if is_paginated %}
+
+    <div class="row">
+        <div class="col-xs-10">
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'track_list' %}?page={{ page_obj.previous_page_number }}">previous    </a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="{% url 'track_list' %}?page={{ page_obj.next_page_number }}">    next</a>
+                {% endif %}
+                <select  class="form-control"  name="pages" onchange="location = this.options[this.selectedIndex].value;">
+                    <option value="#">Select a page</option>
+                    {% for num in paginator.page_range %}
+                        <option value='{% url "track_list" %}?page={{num}}'>Page {{num}}</option>
+                    {% endfor %}
+                </select>
+            </span>
+        </div>
+                </div>
+            </div>
+    {% endif %}
+
+        </div> <!-- /.container -->
+    </section> <!-- /.portfolio -->
+
+
+{% endblock main %}

@@ -1,0 +1,138 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<!--[if IE 7 ]><html class="ie ie7 lte9 lte8 lte7" lang="en-US"><![endif]-->
+<!--[if IE 8]><html class="ie ie8 lte9 lte8" lang="en-US">  <![endif]-->
+<!--[if IE 9]><html class="ie ie9 lte9" lang="en-US"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="noIE" lang="en-US">
+<!--<![endif]-->
+    <head>
+        <!-- meta -->
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no"/>
+        <title>{% block title %}{% endblock %}</title>
+
+        <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/ionicons.min.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/owl.theme.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/section.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/portfolio.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'assets/css/custom.css' %}">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+            <!--[if lt IE 9]>
+                <script src="{% static 'assets/js/html5shiv.js' %}"></script>
+                <script src="{% static 'assets/js/respond.js' %}"></script>
+            <![endif]-->
+
+            <!--[if IE 8]>
+                <script src="{% static 'assets/js/selectivizr.js' %}"></script>
+            <![endif]-->
+    </head>
+
+<body>
+<!-- Home -->
+    <section class="portfolio-header" id="header">
+        
+        <nav class="navbar navbar-default _navbar-fixed-top">
+            <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Arc-FM</a>
+                </div> <!-- /.navbar-header -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="{% block home-active %}{% endblock home-active %}"><a href="{% url 'home' %}">home</a></li>
+                        <li class="{% block music-active %}{% endblock music-active %} dropdown">
+                            <a href="{% url 'music' %}">music  
+                          {% if not request.is_touch_device %}
+                              <span class="caret"></span>
+                          {% endif %}</a>
+                          <ul class="dropdown-menu">
+                            <li><a href="{% url 'artist_list' %}">artists</a></li>
+                            <li><a href="{% url 'album_list' %}">albums</a></li>
+                            <li><a href="{% url 'track_list' %}">tracks</a></li>
+                            <li><a href="{% url 'genre_list' %}">genres</a></li>
+                          </ul>
+                        </li>
+                        <li class="{% block contact-active %}{% endblock contact-active %} "><a href="{% url 'contact' %}">contact</a></li>
+                        {% if request.user.is_authenticated %}
+                            <li><a href="{% url 'logout' %}?next={{request.path}}">log out {{request.user}}</a></li>
+                        {% else %}
+                            <li class="{% block login-active %}{% endblock login-active %}"><a href="{% url 'login' %}?next={{request.path}}">log in</a></li>
+                            <li class="{% block signup-active %}{% endblock signup-active %}"><a href="{% url 'signup' %}?next={{request.path}}">sign up</a></li>
+                        {% endif %}
+                        
+                    </ul> <!-- /.nav -->
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container -->
+        </nav>
+    </section> <!-- /#header -->
+
+
+<!-- Section Background -->
+    <section class="section-background">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                &nbsp;{% block breadcrumb %}{% endblock breadcrumb %}
+            </ol>
+        </div> <!-- /.container -->
+    </section> <!-- /.section-background -->
+
+{% block main %}
+
+{% endblock main %}
+
+
+<!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="copy">
+                        Copyright &copy; 2015 <a href="http://coleclayman.us">coleclayman</a>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <div class="social-icon">
+                        <a href="http://github.com/coleclayman">
+                            <div class="icon rss">
+                                <i class="ion-social-github"></i>
+                            </div>
+                        </a>
+                        <a href="http://coleclayman.us">
+                            <div class="icon google">
+                                <i class="ion-social-rss"></i>
+                            </div>
+                        </a>
+                    </div>      
+                </div>
+            </div> <!-- /.row -->
+        </div> <!-- /.container -->
+    </footer>
+    
+
+
+    <script src="{% static 'assets/js/jquery-1.11.2.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+     <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/contact.js' %}"></script>
+
+    <!-- // <script src="{% static 'assets/js/smoothscroll.js' %}"></script> -->
+    <script src="{% static 'assets/js/script.js' %}"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block title %}{{track.track_title}}{% endblock %}
+
+{% block breadcrumb %}<li><a href="{% url 'track_list' %}">tracks</a></li><li><a href="{% url 'album_detail' track.album.album_handle %}">{{track.album.album_title}}</a></li><li class="active">{{track.track_title}}</li>{% endblock %}
+
+{% block music-active %}
+    active
+{% endblock music-active %}
+
+{% block main %}
+
+
+
+<!-- About Us -->
+    <section class="about" id="about">
+        <div class="container section-wrapper">
+            <h2 class="section-title black">
+                {{track.track_title}}
+            </h2> <!-- /.section-title -->
+            <div class="underline blue"></div>  
+            <div class="row" style="text-align: center">
+                <div class="col-sm-3"><br>
+                    {% if not request.user.is_authenticated %}
+                        <p>Sign up or log in above to listen!</p>
+                    {% else %}
+                        
+                    {% ifequal file_url "fail" %}
+                        <h4>Audio file failed to load...</h4>
+                    {% else %}
+                        <audio controls>
+                          <source src="{{file_url}}">
+                        Your browser does not support the audio element.
+                        </audio>
+                    {% endifequal %}
+
+                    {% endif %}
+                    <h4>
+                        {{track.track_duration}}
+                    </h4>
+                </div>
+                <div class="col-sm-3">
+                    <h3>
+                        Genres
+                    </h3>
+                    {% for genre in track.genre.all %}
+                        <h4><a href="{% url 'genre_detail' genre.genre_handle %}">{{genre.genre_title}}</a></h4>
+                    {% endfor %}
+                </div>
+                <div class="col-sm-3">
+                    <h3>
+                        Albums
+                    </h3>
+                    <h2>
+                        <a href="{% url 'album_detail' track.album.album_handle %}">{{track.album.album_title}}</a>
+                    </h2>
+                </div>
+                <div class="col-sm-3">
+                    <h3>
+                        Artist
+                    </h3>
+                    <h2>
+                        <a href="{% url 'artist_detail' track.album.artist.artist_handle %}">{{track.album.artist.artist_name}}</a>
+                    </h2>
+                </div>
+            </div>
+        </div> <!-- /.container -->
+    </section> <!-- /.about -->
+    
+
+
+<!-- Testimonial -->
+    <section class="testimonial">
+        <div class="container section-wrapper">
+            <div class="section-title">
+                Track Stats
+            </div> <!-- /.section-title -->
+            <div class="underline white"></div>
+            <div class="owl-carousel testimonial-owl">
+                <div class="item">
+                    <p class="testimonial-detail">
+                        {{track.track_favorites}} Favorites<br>
+                        {{track.track_listens}} Listens<br>
+                        {{track.track_interest}} Interest<br>
+                        {{track.track_duration}} Duration
+                    </p>
+                </div> <!-- /.item -->
+            </div> <!-- /.owl-carousel -->
+        </div> <!-- /.container -->
+    </section> <!-- /.testimonial -->
+
+
+
+{% endblock %}
+
+
+{{track.track_id}} <br>
+{{track}} <br>
+{{track.album}}<br>
+{% if track.album.album_image %}  
+<img src="{{track.album.album_image.url}}"><br>
+{% else %}
+No image for this album!<br>
+{% endif %}
+{{track.album.artist}}<br>
+{{track.track_duration}}<br>
+{{track.track_favorites}}<br>
+<a href="{% url 'update_track' track.pk %}">Update this track</a>
+<a href="{% url 'track_list' %}">Back to the list</a>

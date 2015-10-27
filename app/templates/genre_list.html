@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block title %}genres{% endblock %}
+
+{% block breadcrumb %}<li class="active">genres</li>{% endblock %}
+
+
+{% block music-active %}
+    active
+{% endblock music-active %}
+
+{% block main %}
+
+<!-- Portfolio -->
+    <section class="portfolio" id="portfolio">
+        <div class="container section-wrapper">
+            <h2 class="section-title black">
+                genres
+            </h2> <!-- /.section-title -->
+            <div class="underline blue"></div>
+
+            {% if is_paginated %}
+
+    <div class="row">
+        <div class="col-xs-10">
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'genre_list' %}?page={{ page_obj.previous_page_number }}">previous    </a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="{% url 'genre_list' %}?page={{ page_obj.next_page_number }}">    next</a>
+                {% endif %}
+                <select  class="form-control"  name="pages" onchange="location = this.options[this.selectedIndex].value;">
+                    <option value="#">Select a page</option>
+                    {% for num in paginator.page_range %}
+                        <option value='{% url "genre_list" %}?page={{num}}'>Page {{num}}</option>
+                    {% endfor %}
+                </select>
+            </span>
+        </div>
+                </div>
+            </div>
+    {% endif %}
+            <hr>
+
+                {% for genre in genres %}
+
+                {% if forloop.counter0|divisibleby:4 %}
+                    
+            <div class="row" style="text-align: center">
+                {% endif %}
+                <div class="col-sm-3 col-xs-12">
+                    <div class="portfolio-item">
+                        <a href="{% url 'genre_detail' genre.genre_handle %}"><span class='clickable-div'></span></a>
+                        <div class="portfolio-item-details">
+                            <div class="portfolio-item-name">
+                                <h3><a href="{% url 'genre_detail' genre.genre_handle %}">{{genre.genre_title}}</a></h3>
+                            </div> <!-- /.portfolio-item-name -->
+                            
+                        </div> <!-- /.portfolio-item-details -->
+                    </div> <!-- /.portfolio-item -->
+                </div> <!-- /.col-md-4 -->
+                {% if forloop.counter|divisibleby:4 %}
+            </div> <!-- /.row -->
+                {% endif %}
+                {% endfor %}
+
+            
+            {% if is_paginated %}
+
+    <div class="row">
+        <div class="col-xs-10">
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'genre_list' %}?page={{ page_obj.previous_page_number }}">previous    </a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="{% url 'genre_list' %}?page={{ page_obj.next_page_number }}">    next</a>
+                {% endif %}
+                <select  class="form-control"  name="pages" onchange="location = this.options[this.selectedIndex].value;">
+                    <option value="#">Select a page</option>
+                    {% for num in paginator.page_range %}
+                        <option value='{% url "genre_list" %}?page={{num}}'>Page {{num}}</option>
+                    {% endfor %}
+                </select>
+            </span>
+        </div>
+                </div>
+            </div>
+    {% endif %}
+
+        </div> <!-- /.container -->
+    </section> <!-- /.portfolio -->
+
+
+{% endblock main %}
+
+
+
+{{ genres }}
+
+<br><br>
+
+{% for genre in genres %}
+    
+<a href="{% url 'genre_detail' genre.genre_handle %}">{{ genre.genre_title }}</a> <br>
+
+
+
+{% endfor %}
+<br>
+<br>
+<br>
+<br>
+<a href="{% url 'create_genre' %}">Create a genre</a>

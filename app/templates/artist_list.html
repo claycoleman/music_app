@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block title %}artists{% endblock %}
+
+{% block breadcrumb %}<li class="active">artists</li>{% endblock %}
+
+
+{% block music-active %}
+    active
+{% endblock music-active %}
+
+{% block main %}
+
+<!-- Portfolio -->
+    <section class="portfolio" id="portfolio">
+        <div class="container section-wrapper">
+            <h2 class="section-title black">
+                artists
+            </h2> <!-- /.section-title -->
+            <div class="underline blue"></div>
+            <form action="{% url 'artist_list' %}" method='GET'>
+                <input name='search' type='text' size='15' placeholder='Search for an artist'>
+            </form>
+            {% if is_paginated %}
+
+    <div class="row">
+        <div class="col-xs-10">
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.previous_page_number }}">previous    </a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.previous_page_number }}">previous    </a>
+                    {% endif %}
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.next_page_number }}">next    </a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.next_page_number }}">next    </a>
+                    {% endif %}
+                {% endif %}
+                <select  class="form-control"  name="pages" onchange="location = this.options[this.selectedIndex].value;">
+                    <option value="#">Select a page</option>
+                    {% for num in paginator.page_range %}
+                        <option value='{% url "artist_list" %}?page={{num}}'>Page {{num}}</option>
+                    {% endfor %}
+                </select>
+            </span>
+        </div>
+                </div>
+            </div>
+    {% endif %}
+            <hr>
+                {% for artist in artists %}
+
+                {% if forloop.counter0|divisibleby:3 %}    
+            <div class="row">
+                {% endif %}
+                <div class="col-sm-4 col-xs-12">
+                    <div class="portfolio-item" style="min-height: 425px;">
+                    <a href="{% url 'artist_detail' artist.artist_handle %}"><span class='clickable-div'></span></a>
+                        <div class="portfolio-img">
+                        
+                        {% thumbnail  artist.artist_image "250x250" crop="center" as im %}
+                            <img src="{{ im.url }}" alt="port-1" class="port-item" width="{{ im.width }}" height="{{ im.height }}">
+                        {% endthumbnail %}
+                        
+                            
+                        </div> <!-- /.portfolio-img -->
+                        <div class="portfolio-item-details">
+                            <div class="portfolio-item-name">
+                                <h4>{{artist.artist_name}} </h4><br>
+                            </div> <!-- /.portfolio-item-name -->
+                            <div class="port-heart">
+                                <i class="ion-ios-heart-outline"></i> {{artist.artist_tracks}}
+                            </div> <!-- /.port-heart -->
+                        </div> <!-- /.portfolio-item-details -->
+                    </div> <!-- /.portfolio-item -->
+                </div> <!-- /.col-md-4 -->
+                {% if forloop.counter|divisibleby:3 %}
+                    </div> <!-- /.row -->
+                {% endif %}
+                {% endfor %}
+
+
+            {% if is_paginated %}
+
+    <div class="row">
+        <div class="col-xs-10">
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.previous_page_number }}">previous    </a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.previous_page_number }}">previous    </a>
+                    {% endif %}
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.next_page_number }}">next    </a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.next_page_number }}">next    </a>
+                    {% endif %}
+                {% endif %}
+                <select  class="form-control"  name="pages" onchange="location = this.options[this.selectedIndex].value;">
+                    <option value="#">Select a page</option>
+                    {% for num in paginator.page_range %}
+                        <option value='{% url "artist_list" %}?page={{num}}'>Page {{num}}</option>
+                    {% endfor %}
+                </select>
+            </span>
+        </div>
+                </div>
+            </div>
+    {% endif %}
+
+        </div> <!-- /.container -->
+    </section> <!-- /.portfolio -->
+
+
+{% endblock main %}

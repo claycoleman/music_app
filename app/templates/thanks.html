@@ -1,0 +1,27 @@
+ {% extends "base.html" %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block title %}albums{% endblock %}
+
+{% block breadcrumb %}<li class="active">albums</li>{% endblock %}
+{% block music-active %}
+    active
+{% endblock music-active %}
+
+{% block main %}
+
+<!-- slider -->
+<section>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="title">
+                <h2><strong>Thanks for your feedback!</strong></h2><br>
+                    <p class="subTitle">I'll get back to you as soon as I can. Look forward to working with you!</p><br>
+                    <h3><a href="{% url 'home' %}" class="btn">Back to home</a></h3>
+         </div>
+        </div>
+    </div>          
+        
+</section> 
+
+{% endblock %}
